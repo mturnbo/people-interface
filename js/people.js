@@ -38,9 +38,11 @@ function removePerson(id) {
 		type: 'DELETE',
 		url: '/people-api/person' + id,
 		dataType: 'json',
-		success: function(data) {
-			getPeople();
-		}
+		statusCode: {
+			204: function() {
+				getPeople();
+			}
+    	}
 	});
 }
 
@@ -64,9 +66,11 @@ function removeFamily(id) {
 		type: 'DELETE',
 		url: '/people-api/family' + id,
 		dataType: 'json',
-		success: function(data) {
-			getFamilies();
-		}
+		statusCode: {
+			204: function() {
+				getFamilies();
+			}
+    	}
 	});
 }
 
