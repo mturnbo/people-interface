@@ -33,6 +33,17 @@ function addPerson(newPerson) {
 	});
 }
 
+function removePerson(id) {
+	$.ajax({
+		type: 'DELETE',
+		url: '/people-api/person' + id,
+		dataType: 'json',
+		success: function(data) {
+			getPeople();
+		}
+	});
+}
+
 function addFamily(newFamily) {
 	$.ajax({
 		type: 'POST',
@@ -40,7 +51,20 @@ function addFamily(newFamily) {
 		url: '/people-api/family',
 		dataType: 'json',
 		data: newFamily,
-		success: function() {
+		statusCode: {
+			201: function() {
+				getFamilies();
+			}
+    	}
+	});
+}
+
+function removeFamily(id) {
+	$.ajax({
+		type: 'DELETE',
+		url: '/people-api/family' + id,
+		dataType: 'json',
+		success: function(data) {
 			getFamilies();
 		}
 	});
