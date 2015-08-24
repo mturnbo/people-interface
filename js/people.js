@@ -1,15 +1,11 @@
 function getPeople() {
-    $.ajax({
-        type: 'GET',
-        url: '/people-api/person',
-        success: function(data) {
-	        $('#personTable tbody > tr').remove();
-            var people = data._embedded.person;
-            $.each(people, function(index) {
-	            $("#personTable tbody").append('<tr><td>' + people[index].firstName + '</td><td>' + people[index].lastName + '</td><td>' + people[index].birthDate + '</td><</tr>');
-            });
-        }
-    });	
+	$.get('/people-api/person', function(data) {
+		$('#personTable tbody > tr').remove();
+		var people = data._embedded.person;
+		$.each(people, function(index) {
+			$("#personTable tbody").append('<tr><td>' + people[index].firstName + '</td><td>' + people[index].lastName + '</td><td>' + people[index].birthDate + '</td><</tr>');
+		});
+	})
 }
 
 function getFamilies() {
