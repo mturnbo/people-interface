@@ -6,6 +6,7 @@
     <title>People API Interface</title>
     
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="css/people.css">
     
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script type="text/javascript" src="js/people.js"></script>
@@ -19,46 +20,104 @@
 
 <hr />
 
-<fieldset>
-	<legend>Person</legend>
+<div id="people">
 	
-	<div id="people">
+	<h3>Person</h3>
+	
+	<div class="pure-g">
 		
-		<table id="personTable" class="pure-table">
-			<thead>
-				<tr>
-					<th>First Name</th>
-					<th>Last Name</th>
-					<th>Birth Date</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
+		<div class="pure-u-1-2">
+			
+			<div id="personFormContainer">
+				
+				<form id="frmNewPerson" class="pure-form">
+				    <fieldset>
+				        <legend>Create a new person</legend>
+				        <label for="newPersonFirstname">First Name</label>
+				        <input type="text" id="newPersonFirstname" name="firstName" placeholder="First Name"><br />
+				        
+				        <label for="newPersonLastname">Last Name</label>
+				        <input type="text" id="newPersonLastname" name="lastName" placeholder="Last Name"><br />
+
+				        <label for="newPersonBirthDate">Birth Date</label>				        
+				        <input type="text" id="newPersonBirthDate" name="birthDate" placeholder="Birth Date (YYYY-MM-DD)"><br />
+
+				        <button id="btnNewPerson" type="submit" class="pure-button pure-button-primary">Submit</button>
+				    </fieldset>
+				</form>
+				
+			</div>			
+			
+		</div>		
 		
+	    <div class="pure-u-1-2">
+	    
+			<div id="personTableContainer">
+				<table id="personTable" class="pure-table">
+					<thead>
+						<tr>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Birth Date</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>	    
+	    
+	    </div>
+	    
 	</div>
-	
-</fieldset>
+			
+</div>
 
 
-<fieldset>
-	<legend>Family</legend>
+<div id="families">
 	
-	<div id="family">
+	<h3>Family</h3>
+	
+	<div class="pure-g">
 		
-		<table id="familyTable" class="pure-table">
-			<thead>
-				<tr>
-					<th>Name</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
+	    <div class="pure-u-1-2">
+			
+			<div id="familyFormContainer">
 		
+				<form id="frmNewFamily" class="pure-form">
+				    <fieldset>
+				        <legend>Create a family</legend>
+				        <label for="newFamilyName">Family Name</label>
+				        <input type="text" id="newFamilyName" name="name" placeholder="Family Name"><br />
+		
+				        <button id="btnNewFamily" type="submit" class="pure-button pure-button-primary">Submit</button>
+				    </fieldset>
+				</form>		
+				
+			</div>
+			
+	    </div>
+	    		
+	    <div class="pure-u-1-2">
+
+			<div id="familyTableContainer">
+				
+				<table id="familyTable" class="pure-table">
+					<thead>
+						<tr>
+							<th>Name</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+				
+			</div>
+			
+	    </div>
+	    
 	</div>
 	
-</fieldset>
+</div>
 
 
 <hr />
