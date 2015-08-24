@@ -3,7 +3,14 @@ function getPeople() {
 		$('#personTable tbody > tr').remove();
 		var people = data._embedded.person;
 		$.each(people, function(index) {
-			$("#personTable tbody").append('<tr><td>' + people[index].firstName + '</td><td>' + people[index].lastName + '</td><td>' + people[index].birthDate + '</td><</tr>');
+			var personId = people[index]._links.self.href.split("/").pop();
+			var tableRow = '<tr>';
+			tableRow += '<td>' + people[index].firstName + '</td>';
+			tableRow += '<td>' + people[index].lastName + '</td>';
+			tableRow += '<td>' + people[index].birthDate + '</td>';
+			tableRow += '<td><a href="#" onclick="removePerson(' + personId + ');"> X </td>';
+			tableRow += '</tr>';
+			$("#personTable tbody").append(tableRow);
 		});
 	})
 }
@@ -34,16 +41,18 @@ function addPerson(newPerson) {
 }
 
 function removePerson(id) {
-	$.ajax({
-		type: 'DELETE',
-		url: '/people-api/person' + id,
-		dataType: 'json',
-		statusCode: {
-			204: function() {
-				getPeople();
-			}
-    	}
-	});
+	if (confirm("Are you sure?")) {	
+		$.ajax({
+			type: 'DELETE',
+			url: '/people-api/person' + id,
+			dataType: 'json',
+			statusCode: {
+				204: function() {
+					getPeople();
+				}
+	    	}
+		});
+	}
 }
 
 function addFamily(newFamily) {
@@ -62,16 +71,18 @@ function addFamily(newFamily) {
 }
 
 function removeFamily(id) {
-	$.ajax({
-		type: 'DELETE',
-		url: '/people-api/family' + id,
-		dataType: 'json',
-		statusCode: {
-			204: function() {
-				getFamilies();
-			}
-    	}
-	});
+	if (confirm("Are you sure?")) {		
+		$.ajax({
+			type: 'DELETE',
+			url: '/people-api/family' + id,
+			dataType: 'json',
+			statusCode: {
+				204: function() {
+					getFamilies();
+				}
+	    	}
+		});
+	}
 }
 
 $.fn.serializeObject = function () {
