@@ -20,7 +20,12 @@ function getFamilies() {
         $('#peopleTable tbody > tr').remove();
         var families = data._embedded.family;
         $.each(families, function(index) {
-            $("#familyTable tbody").append('<tr><td>' + families[index].name + '</td></tr>');
+	        var familyId = families[index]._links.self.href.split("/").pop();
+	        var tableRow = '<tr>';
+	        tableRow += '<td>' + families[index].name + '</td>';
+	        tableRow += '<td><a href="#" onclick="removeFamily(' + familyId + ');"> X </td>';
+	        tableRow += '</tr>';
+            $("#familyTable tbody").append(tableRow);
         });
     });	
 }
