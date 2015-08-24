@@ -9,16 +9,12 @@ function getPeople() {
 }
 
 function getFamilies() {
-	$.ajax({
-        type: 'GET',
-        url: '/people-api/family',
-        success: function(data) {
-	        $('#peopleTable tbody > tr').remove();
-            var families = data._embedded.family;
-            $.each(families, function(index) {
-	            $("#familyTable tbody").append('<tr><td>' + families[index].name + '</td></tr>');
-            });
-        }
+	$.get('/people-api/family', function(data) {
+        $('#peopleTable tbody > tr').remove();
+        var families = data._embedded.family;
+        $.each(families, function(index) {
+            $("#familyTable tbody").append('<tr><td>' + families[index].name + '</td></tr>');
+        });
     });	
 }
 
