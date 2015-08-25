@@ -8,11 +8,18 @@ function getPeople() {
 			tableRow += '<td>' + people[index].firstName + '</td>';
 			tableRow += '<td>' + people[index].lastName + '</td>';
 			tableRow += '<td>' + people[index].birthDate + '</td>';
-			tableRow += '<td><a href="#" onclick="removePerson(' + personId + ');"> X </td>';
+			tableRow += '<td><button class="pure-button editperson" data-id="' + personId 
+				+ '" data-firstname="' + people[index].firstName 
+				+ '" data-lastname="' + people[index].lastName 
+				+ '" data-birthdate="' + people[index].birthDate 
+				+ '">Edit</button></td>';
+			tableRow += '<td><button class="pure-button removeperson" data-id="' + personId + '">Remove</button></td>';
 			tableRow += '</tr>';
 			$("#personTable tbody").append(tableRow);
 		});
-	})
+		setPersonButtonsClickEvents();
+	});
+	
 }
 
 function getFamilies() {
@@ -23,10 +30,12 @@ function getFamilies() {
 	        var familyId = families[index]._links.self.href.split("/").pop();
 	        var tableRow = '<tr>';
 	        tableRow += '<td>' + families[index].name + '</td>';
-	        tableRow += '<td><a href="#" onclick="removeFamily(' + familyId + ');"> X </td>';
+			tableRow += '<td><button class="pure-button editfamily" data-id="' + familyId + '">Edit</button></td>';
+			tableRow += '<td><button class="pure-button removefamily" data-id="' + familyId + '">Remove</button></td>';
 	        tableRow += '</tr>';
             $("#familyTable tbody").append(tableRow);
         });
+        setPersonButtonsClickEvents();
     });	
 }
 
@@ -45,8 +54,9 @@ function addPerson(newPerson) {
 	});
 }
 
-function removePerson(id) {
+function removePerson() {
 	if (confirm("Are you sure?")) {	
+		var id = $(this).data('id');
 		$.ajax({
 			type: 'DELETE',
 			url: '/people-api/person' + id,
@@ -75,11 +85,12 @@ function addFamily(newFamily) {
 	});
 }
 
-function removeFamily(id) {
+function removeFamily() {
 	if (confirm("Are you sure?")) {		
+		var id = $(this).data('id');
 		$.ajax({
 			type: 'DELETE',
-			url: '/people-api/family' + id,
+			url: '/people-api/family/' + id,
 			dataType: 'json',
 			statusCode: {
 				204: function() {
@@ -88,6 +99,62 @@ function removeFamily(id) {
 	    	}
 		});
 	}
+}
+
+function setPersonButtonsClickEvents() {
+	
+	$('.editperson').click(function() {
+		$('#editPersonId').val($(this).data('id'));
+		$('#editPersonFirstname').val($(this).data('firstname'));
+		$('#editPersonLastname').val($(this).data('lastname'));
+		$('#editPersonBirthDate').val($(this).data('birthdate'));
+		$('#personTableContainer').slideUp('fast', function() {
+			$('#personEditContainer').fadeIn();
+		});
+	});
+	
+	$('.removeperson').click(function() {
+		if (confirm("Are you sure?")) {	
+			var id = $(this).data('id');
+			$.ajax({
+				type: 'DELETE',
+				url: '/people-api/person/' + id,
+				dataType: 'json',
+				statusCode: {
+					204: function() {
+						getPeople();
+					}
+		    	}
+			});
+		}
+	});
+}
+
+
+function setFamilyButtonsClickEvents() {
+	
+	$('.editfamily').click(function() {
+		var id = $(this).data('id');
+		$('#familyTableContainer').slideUp('fast', function() {
+			$('#familyEditContainer').fadeIn();
+		});
+	});
+	
+	$('.removefamily').click(function() {
+		if (confirm("Are you sure?")) {		
+			var id = $(this).data('id');
+			$.ajax({
+				type: 'DELETE',
+				url: '/people-api/family/' + id,
+				dataType: 'json',
+				statusCode: {
+					204: function() {
+						getFamilies();
+					}
+		    	}
+			});
+		}
+	});
 }
 
 $.fn.serializeObject = function () {
@@ -122,6 +189,21 @@ $(document).ready(function() {
 		return false;
 	});
 	
+	$('#btnEditPersonCancel').click(function() {
+		$('#personEditContainer').fadeOut('fast', function() {
+			$('#personTableContainer').slideDown();
+		});	
+		return false;	
+	});
+	
+	$('#btnEditFamilyCancel').click(function() {
+		$('#familyEditContainer').fadeOut('fast', function() {
+			$('#familyTableContainer').slideDown();
+		});	
+		return false;	
+	});
+	
 	getPeople();
 	getFamilies();
+	
 });

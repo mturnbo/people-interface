@@ -1,7 +1,19 @@
+body {
+	margin:20px;
+}
+
 #people {
 	min-height: 300px;
 }
 
 #families {
 	min-height: 300px;
+}
+
+#personEditContainer {
+	display: none;
+}
+
+#familyEditContainer {
+	display: none;
 }
