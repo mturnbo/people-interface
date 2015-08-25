@@ -54,6 +54,24 @@ function addPerson(newPerson) {
 	});
 }
 
+function editPerson(id, person) {
+	$.ajax({
+		type: 'PATCH',
+		contentType: 'application/json',
+		url: '/people-api/person/' + id,
+		dataType: 'json',
+		data: person,
+		statusCode: {
+			201: function() {
+				getPeople();
+			}
+    	}
+	});	
+	$('#personEditContainer').fadeOut('fast', function() {
+		$('#personTableContainer').slideDown();
+	});	
+}
+
 function removePerson() {
 	if (confirm("Are you sure?")) {	
 		var id = $(this).data('id');
@@ -186,6 +204,13 @@ $(document).ready(function() {
 		var data = JSON.stringify($(this).serializeObject());
 		addFamily(data);
 		$(this).trigger('reset');
+		return false;
+	});
+
+	$('#frmEditPerson').submit(function() {
+		var data = JSON.stringify($(this).serializeObject());
+		var id = $('#editPersonId').val();
+		editPerson(id, data);
 		return false;
 	});
 	
